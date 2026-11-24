@@ -139,6 +139,4 @@ The demonstrated deployment is a single local instance using H2. Production host
 
 ## Project origin
 
-Developed from a university Java project and improved by **Josias Cisneros**. AI tools assisted with analysis, implementation and verification. Scope decisions and manual walkthrough feedback were provided by the author. This repository presents the resulting application; it does not claim that every improvement was written without assistance.
-
-Third-party notices are retained. See [Bootstrap attribution](docs/TERCEROS_BOOTSTRAP.md).
+Developed from a university Java project and improved by **Josias Cisneros**. AI tools assisted with analysis, implementation and verification. Scope decisions and manual walkthrough feedback were provided by the author.
