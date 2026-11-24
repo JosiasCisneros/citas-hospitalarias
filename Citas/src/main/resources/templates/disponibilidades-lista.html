@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disponibilidades · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/administracion.css}">
+    <script th:src="@{/js/agenda.js}" defer sec:authorize="hasRole('ADMIN')"></script>
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('disponibilidades')}"></header>
+    <main id="contenido" class="contenedor administracion" tabindex="-1">
+        <div class="cabecera-admin"><div><h1>Disponibilidades</h1><p class="texto-secundario">Horarios de atención por médico.</p></div><a class="boton" th:href="@{/disponibilidades/nueva}" sec:authorize="hasRole('ADMIN')">Registrar disponibilidad</a></div>
+        <p class="mensaje error" role="alert" th:if="${error}" th:text="${error}"></p>
+        <p class="mensaje exito" role="status" th:if="${param.guardado}">Disponibilidad registrada correctamente.</p>
+        <p class="mensaje exito" role="status" th:if="${param.actualizado}">Disponibilidad actualizada correctamente.</p>
+        <p class="mensaje exito" role="status" th:if="${param.eliminado}">Disponibilidad eliminada correctamente.</p>
+
+        <section class="vacio-admin" th:if="${#lists.isEmpty(disponibilidades)}"><h2>No hay disponibilidades registradas</h2><p>Los horarios que se registren aparecerán aquí.</p><a th:href="@{/medicos}">Ver médicos</a></section>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(disponibilidades)}" role="region" aria-label="Disponibilidades de médicos" tabindex="0">
+            <table class="tabla-admin"><caption class="solo-lectores">Horarios registrados.</caption><thead><tr><th scope="col">Médico</th><th scope="col">Especialidad</th><th scope="col">Fecha</th><th scope="col">Hora inicio</th><th scope="col">Hora fin</th><th scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th></tr></thead><tbody>
+                <tr th:each="disponibilidad : ${disponibilidades}"><td th:text="${disponibilidad.medico.nombre}"></td><td th:text="${disponibilidad.medico.especialidad}"></td><td class="celda-fecha" th:text="${#temporals.format(disponibilidad.fecha, 'dd/MM/yyyy')}"></td><td class="celda-hora" th:text="${#temporals.format(disponibilidad.horaInicio, 'HH:mm')}"></td><td class="celda-hora" th:text="${#temporals.format(disponibilidad.horaFin, 'HH:mm')}"></td>
+                    <td sec:authorize="hasRole('ADMIN')"><div class="acciones-compactas">
+                        <a class="boton-secundario accion-compacta" th:href="@{/disponibilidades/editar/{id}(id=${disponibilidad.id})}" th:attr="aria-label=${'Editar disponibilidad de ' + disponibilidad.medico.nombre}">Editar</a>
+                        <form th:action="@{/disponibilidades/eliminar/{id}(id=${disponibilidad.id})}" method="post" data-revisar-accion th:attr="data-titulo='¿Eliminar esta disponibilidad?',data-mensaje='Se intentará eliminar el horario. Si tiene citas asociadas, el servidor conservará el historial y rechazará la eliminación.',data-accion='Eliminar'">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button class="boton-peligro accion-compacta" type="submit" th:attr="aria-label=${'Eliminar disponibilidad de ' + disponibilidad.medico.nombre}">Eliminar</button><p class="ayuda aviso-accion" data-aviso-sin-js>Se eliminará solo si no tiene citas asociadas.</p>
+                        </form>
+                    </div></td>
+                </tr>
+            </tbody></table>
+        </div>
+    </main>
+    <th:block sec:authorize="hasRole('ADMIN')"><dialog th:replace="~{fragments/administracion :: confirmacion}"></dialog></th:block>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Médicos · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/administracion.css}">
+    <script th:src="@{/js/agenda.js}" defer sec:authorize="hasRole('ADMIN')"></script>
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('medicos')}"></header>
+    <main id="contenido" class="contenedor administracion" tabindex="-1">
+        <div class="cabecera-admin"><div><h1>Médicos</h1><p class="texto-secundario">Directorio de profesionales y especialidades.</p></div><a class="boton" th:href="@{/medicos/nuevo}" sec:authorize="hasRole('ADMIN')">Registrar médico</a></div>
+        <p class="mensaje error" role="alert" th:if="${error}" th:text="${error}"></p>
+        <p class="mensaje exito" role="status" th:if="${param.guardado}">Médico registrado correctamente.</p>
+        <p class="mensaje exito" role="status" th:if="${param.actualizado}">Médico actualizado correctamente.</p>
+        <p class="mensaje exito" role="status" th:if="${param.desactivado}">Médico desactivado correctamente.</p>
+
+        <section class="vacio-admin" th:if="${#lists.isEmpty(medicos)}"><h2>Aún no hay médicos registrados</h2><p>El directorio estará disponible cuando se registren profesionales.</p><a th:href="@{/inicio}">Volver al inicio</a></section>
+        <div class="directorio-medicos" th:unless="${#lists.isEmpty(medicos)}">
+            <article class="tarjeta-medico" th:each="medico : ${medicos}" th:attr="aria-labelledby=${'nombre-medico-' + medico.id}">
+                <p class="metadato" sec:authorize="hasRole('ADMIN')" th:text="${'ID ' + medico.id}"></p><h2 th:id="${'nombre-medico-' + medico.id}" th:text="${medico.nombre}"></h2><p class="texto-secundario" th:text="${medico.especialidad}"></p>
+                <span class="estado" th:classappend="${medico.activo ? 'estado-activo' : 'estado-inactivo'}" th:text="${medico.activo ? 'Activo' : 'Inactivo'}"></span>
+                <div class="acciones-compactas" sec:authorize="hasRole('ADMIN')">
+                    <a class="boton-secundario accion-compacta" th:href="@{/medicos/editar/{id}(id=${medico.id})}" th:attr="aria-label=${'Editar a ' + medico.nombre}">Editar</a>
+                    <form th:if="${medico.activo}" th:action="@{/medicos/desactivar/{id}(id=${medico.id})}" method="post" data-revisar-accion
+                        th:attr="data-titulo='¿Desactivar este médico?',data-mensaje=${'Se desactivará a ' + medico.nombre + '. Sus citas se conservarán y no se podrán hacer nuevas reservas con este médico.'},data-accion='Desactivar'">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <button class="boton-peligro accion-compacta" type="submit" th:attr="aria-label=${'Desactivar a ' + medico.nombre}">Desactivar</button>
+                        <p class="ayuda aviso-accion" data-aviso-sin-js>Al enviar se desactiva el médico; sus citas se conservan.</p>
+                    </form>
+                </div>
+            </article>
+        </div>
+    </main>
+    <th:block sec:authorize="hasRole('ADMIN')"><dialog th:replace="~{fragments/administracion :: confirmacion}"></dialog></th:block>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

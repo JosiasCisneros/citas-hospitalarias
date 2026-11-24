@@ -1,0 +1,38 @@
+/* Navegacion publica y shell; los colores proceden de contenido.css. */
+.site-header { min-width:0; }
+.saltar-contenido { position:fixed; top:8px; left:16px; z-index:100; transform:translateY(-200%); padding:12px 16px; background:var(--surface); color:var(--brand); border:1px solid var(--brand); border-radius:var(--radius-control); }
+.saltar-contenido:focus { transform:none; }
+.marca { display:flex; align-items:center; gap:10px; color:inherit; text-decoration:none; font-weight:600; line-height:1.3; }
+.marca svg { width:28px; height:28px; flex-shrink:0; }
+.cabecera-publica { min-height:64px; max-width:1088px; padding:0 24px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.cabecera-publica .marca { color:var(--brand); }
+.navegacion-publica { display:flex; gap:20px; align-items:center; }
+.navegacion-publica a { font-size:14px; padding:12px 0; text-decoration:none; }
+.navegacion-publica a[aria-current] { text-decoration:underline; text-decoration-thickness:2px; }
+.app-shell > .site-header { grid-row:1/3; background:var(--brand); color:var(--surface); }
+.barra-lateral { position:sticky; top:0; padding:32px 16px 24px; }
+.barra-lateral .marca { padding:0 8px 28px; }
+.navegacion-app { display:flex; flex-direction:column; gap:24px; }
+.grupo-nav { display:flex; flex-direction:column; gap:4px; }
+.titulo-nav { margin:0 0 8px; padding:0 12px; font-size:12px; font-weight:500; color:var(--surface); }
+.navegacion-app a { min-height:44px; padding:10px 12px; border-radius:var(--radius-control); color:var(--surface); text-decoration:none; font-size:14px; }
+.navegacion-app a:hover { background:var(--brand-hover); }
+.navegacion-app a[aria-current=page] { background:var(--accent); color:var(--brand); font-weight:600; }
+.cerrar-sesion { margin:4px 0 0; }
+.cerrar-sesion button { width:100%; text-align:left; padding:10px 12px; color:var(--surface); background:transparent; border-radius:var(--radius-control); font-size:14px; }
+.cerrar-sesion button:hover { background:var(--brand-hover); }
+.app-shell .site-header :where(a,button,summary):focus-visible { outline-color:var(--surface); }
+.cabecera-movil { display:none; }
+@media (max-width:1023px) {
+ .barra-lateral { display:none; }
+ .cabecera-movil { display:block; padding:16px; }
+ .cabecera-movil .marca { display:inline-flex; margin-bottom:12px; }
+ .cabecera-movil summary { min-height:44px; padding:10px 12px; border:1px solid var(--surface); border-radius:var(--radius-control); cursor:pointer; font-weight:500; }
+ .cabecera-movil .navegacion-app { padding-top:24px; }
+}
+@media (max-width:560px) {
+ .cabecera-publica { padding:0 16px; gap:8px; }
+ .cabecera-publica .marca { max-width:120px; font-size:14px; }
+ .cabecera-publica .marca svg { display:none; }
+ .navegacion-publica { gap:16px; }
+}

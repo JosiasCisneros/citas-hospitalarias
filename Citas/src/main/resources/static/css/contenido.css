@@ -1,0 +1,133 @@
+/* Base visual compartida. DESIGN.md v1; sin fuentes ni recursos remotos. */
+:root {
+  --canvas:#f5f8f7; --surface:#ffffff; --surface-soft:#edf4f2;
+  --brand:#244d54; --brand-hover:#193b41; --accent:#2ecea0;
+  --text:#182b30; --text-muted:#52636a; --border:#d8e3df; --control-border:#687c80;
+  --focus:#244d54; --success:#176044; --success-bg:#e8f5ef;
+  --warning:#715200; --warning-bg:#fff3cd; --danger:#a52a36; --danger-bg:#fff0f1;
+  --neutral:#475569; --neutral-bg:#eef1f2;
+  --font-ui:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --radius-control:10px; --radius-card:16px; --radius-pill:999px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:24px; --space-6:32px; --space-7:48px;
+  --content-max:1200px; --sidebar-width:232px;
+}
+* { box-sizing:border-box; }
+body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--canvas); color:var(--text); font:400 16px/1.5 var(--font-ui); }
+body.app-shell { display:grid; grid-template-columns:var(--sidebar-width) minmax(0,1fr); grid-template-rows:1fr auto; }
+main { min-width:0; }
+.contenedor { width:100%; max-width:var(--content-max); flex:1; padding:32px; margin:0 auto; }
+.panel { width:100%; max-width:640px; padding:32px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); }
+.panel-grande { max-width:760px; } .panel-muy-grande { max-width:100%; }
+h1,h2,h3 { font-weight:600; color:var(--text); overflow-wrap:anywhere; }
+h1 { margin:0 0 16px; font-size:clamp(1.75rem,2.5vw,2.25rem); line-height:1.2; }
+h2 { margin:24px 0 12px; font-size:24px; line-height:1.3; }
+h3 { font-size:18px; line-height:1.4; }
+p { margin:0 0 16px; } a { color:var(--brand); text-underline-offset:4px; font-weight:500; }
+a:hover { color:var(--brand-hover); }
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+form { display:flex; flex-direction:column; gap:16px; }
+label { font-weight:500; }
+input:not([type=hidden]):not([type=checkbox]):not([type=radio]),select,textarea {
+  width:100%; min-width:0; min-height:44px; padding:10px 12px; border:1px solid var(--control-border);
+  border-radius:var(--radius-control); background:var(--surface); color:var(--text); font:inherit;
+}
+input[type=hidden] { display:none; } input[aria-invalid=true] { border-color:var(--danger); }
+button,input[type=submit],.boton { min-height:44px; padding:10px 20px; border:1px solid transparent; border-radius:var(--radius-pill); background:var(--brand); color:var(--surface); font:500 16px/1.5 var(--font-ui); cursor:pointer; text-align:center; text-decoration:none; }
+button:hover,input[type=submit]:hover,.boton:hover { background:var(--brand-hover); color:var(--surface); }
+button:disabled { cursor:not-allowed; background:var(--neutral-bg); color:var(--text-muted); border-color:var(--control-border); }
+.boton-secundario { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:10px 20px; border:1px solid var(--control-border); border-radius:var(--radius-pill); background:var(--surface); color:var(--brand); text-decoration:none; }
+.boton-secundario:hover { background:var(--surface-soft); color:var(--brand); }
+.boton-peligro { color:var(--danger); background:var(--surface); border-color:var(--danger); }
+.boton-peligro:hover { color:var(--danger); background:var(--danger-bg); }
+.boton-confirmar { background:var(--success); } .boton-confirmar:hover { background:var(--brand-hover); }
+.mensaje { padding:16px; margin:0 0 20px; border:1px solid var(--border); border-radius:var(--radius-control); background:var(--surface-soft); color:var(--text); overflow-wrap:anywhere; }
+.error { color:var(--danger); background:var(--danger-bg); border-color:var(--danger); }
+.exito { color:var(--success); background:var(--success-bg); border-color:var(--success); }
+.ayuda,.texto-secundario { font-size:14px; color:var(--text-muted); }
+.solo-lectores { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+.links { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; }
+.links-centro { justify-content:center; }
+.links a { padding-block:8px; }
+.menu { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr)); gap:12px; margin:24px 0; }
+.menu a { padding:16px; border:1px solid var(--border); border-radius:var(--radius-control); background:var(--surface-soft); }
+.form-salida { max-width:220px; margin:0 auto; }
+.tabla-contenedor { max-width:100%; overflow-x:auto; margin-top:20px; }
+table { width:100%; min-width:720px; border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums; }
+th,td { padding:12px; border-bottom:1px solid var(--border); text-align:left; vertical-align:middle; }
+th { font-weight:600; background:var(--surface-soft); }
+.acciones { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.form-inline { display:inline-flex; flex-direction:row; align-items:center; width:auto; gap:8px; }
+.form-inline button { white-space:nowrap; }
+.filtros { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr)); gap:16px; margin:24px 0; }
+.resumen-reportes { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr)); gap:12px; margin:20px 0; }
+.resumen-reportes div { padding:16px; border:1px solid var(--border); border-radius:var(--radius-control); background:var(--surface-soft); }
+.resumen-reportes strong,.resumen-reportes span { display:block; } .resumen-reportes span { font-size:24px; font-weight:600; }
+.acciones-reporte,.acordeon-horarios { margin-top:20px; }
+.acordeon-horarios .accordion-item { border-color:var(--border); }
+.acordeon-horarios .accordion-button { border-radius:0; background:var(--surface-soft); color:var(--brand); font-weight:600; box-shadow:none; }
+.acordeon-horarios .accordion-button:not(.collapsed) { background:var(--surface-soft); color:var(--brand); }
+.grupo-fecha { margin-bottom:24px; } .grupo-fecha:last-child { margin-bottom:0; }
+.grupo-fecha h3 { margin:0 0 12px; font-size:18px; }
+.boton-horario { padding:10px 16px; font-variant-numeric:tabular-nums; }
+.estado { display:inline-block; padding:4px 12px; border-radius:var(--radius-pill); font-size:14px; font-weight:500; }
+.estado-pendiente { background:var(--warning-bg); color:var(--warning); }
+.estado-confirmada { background:var(--success-bg); color:var(--success); }
+.estado-cancelada { background:var(--neutral-bg); color:var(--neutral); }
+/* Acceso publico: composicion editorial + formulario, sin fotografias. */
+.acceso-main { width:100%; max-width:1088px; flex:1; padding:48px 24px; margin:0 auto; }
+.acceso { display:grid; grid-template-columns:2fr 3fr; border:1px solid var(--border); border-radius:var(--radius-card); overflow:hidden; background:var(--surface); }
+.editorial-acceso { display:flex; flex-direction:column; justify-content:space-between; padding:40px 32px; background:var(--brand); color:var(--surface); }
+.editorial-acceso h2 { color:var(--surface); font-size:44px; line-height:1.12; margin:16px 0 24px; max-width:8em; }
+.editorial-acceso p { max-width:28ch; }
+.ceja { display:block; margin:0 0 12px; font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; }
+.motivo-agenda { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:40px 0; padding:20px; border:1px solid var(--control-border); border-radius:var(--radius-card); transform:rotate(-4deg); }
+.motivo-agenda span { height:30px; border-radius:6px; background:var(--surface); opacity:.15; }
+.motivo-agenda span:nth-child(3n) { background:var(--accent); opacity:1; }
+.motivo-agenda span:nth-child(5n) { opacity:0; }
+.editorial-pie { margin:0; font-size:14px; }
+.acceso-formulario { padding:40px; min-width:0; }
+.acceso-formulario > .texto-secundario { margin-bottom:28px; }
+.acceso-formulario h1 { font-size:32px; }
+.campo { display:flex; flex-direction:column; gap:8px; min-width:0; }
+.campo .ayuda { margin:0; }
+.campos-registro { display:grid; grid-template-columns:1fr 1fr; gap:20px 16px; }
+.campo-ancho { grid-column:1/-1; }
+.acceso form { gap:20px; }
+.acceso .links { justify-content:center; font-size:14px; }
+.acceso .links p { margin:0; }
+.recuperacion-main { max-width:528px; }
+.recuperacion-panel { padding:32px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); }
+.recuperacion-panel h1 { font-size:28px; }
+.enlace-volver { display:inline-block; margin-bottom:24px; font-size:14px; }
+.recuperacion-panel .links { font-size:14px; }
+@media (max-width:1023px) {
+  body.app-shell { display:flex; }
+  .contenedor { padding:24px; }
+  .acceso-main { padding-top:32px; }
+  .editorial-acceso { padding:32px 24px; }
+  .editorial-acceso h2 { font-size:40px; }
+  .acceso-formulario { padding:32px; }
+}
+@media (max-width:767px) {
+  .contenedor { padding:16px; } .panel { padding:24px; }
+  .acceso-main { padding:24px 16px; }
+  .acceso { display:block; }
+  .editorial-acceso { display:none; }
+  .acceso-formulario,.recuperacion-panel { padding:24px; }
+  .campos-registro { grid-template-columns:1fr; }
+  .links { align-items:flex-start; }
+  .acciones { align-items:stretch; }
+  .acciones .form-inline { width:100%; }
+  .acciones .form-inline button { width:100%; }
+}
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; } }
+
+/* Dialogo compartido por paciente y administracion. */
+.dialogos-agenda [data-aviso-sin-js] { display:none; }
+.dialogo-agenda:not([open]) { display:none; }
+.dialogo-agenda { width:calc(100% - 32px); max-width:520px; max-height:calc(100dvh - 32px); overflow-y:auto; padding:32px; margin:auto; border:1px solid var(--control-border); border-radius:var(--radius-card); background:var(--surface); color:var(--text); }
+.dialogo-agenda::backdrop { background:var(--text); opacity:.45; }
+.dialogo-agenda h2 { margin:0 0 24px; }
+.acciones-dialogo { display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap; margin-top:24px; }
+@media (max-width:767px) { .acciones-dialogo { flex-direction:column; } .acciones-dialogo button { width:100%; } }

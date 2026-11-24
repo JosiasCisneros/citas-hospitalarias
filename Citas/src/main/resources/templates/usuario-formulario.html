@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar usuario · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/administracion.css}">
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('usuarios')}"></header>
+    <main id="contenido" class="contenedor administracion" tabindex="-1">
+        <div class="cabecera-admin"><h1>Editar usuario</h1></div><section class="panel formulario-admin" aria-label="Datos de la cuenta seleccionada">
+            <p class="metadato" th:text="${'ID ' + usuarioId}"></p>
+        <p class="mensaje error" role="alert" th:if="${error}" th:text="${error}"></p>
+            <form th:action="@{/usuarios/editar/{id}(id=${usuarioId})}" method="post" th:object="${usuario}"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <div class="campos-cortos"><div class="campo"><label for="nombre">Nombre</label><input type="text" id="nombre" th:field="*{nombre}" maxlength="255" autocomplete="name" required></div><div class="campo"><label for="cedula">Cédula</label><input type="text" id="cedula" th:field="*{cedula}" maxlength="255" inputmode="numeric" placeholder="D-DDDD-DDDD" required></div></div>
+                <div class="campo"><label for="correo">Correo electrónico</label><input type="email" id="correo" th:field="*{correo}" maxlength="255" autocomplete="email" required></div>
+                <div class="campo"><label for="contacto">Contacto <span class="texto-secundario">(opcional)</span></label><input type="text" id="contacto" th:field="*{contacto}" maxlength="255"></div>
+                <div class="campo"><label for="nuevaPassword">Nueva contraseña <span class="texto-secundario">(opcional)</span></label><input type="password" id="nuevaPassword" name="nuevaPassword" autocomplete="new-password"></div>
+                <div class="acciones-formulario"><button type="submit">Guardar</button><a class="boton-secundario" th:href="@{/usuarios}">Volver a usuarios</a></div>
+            </form>
+        </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

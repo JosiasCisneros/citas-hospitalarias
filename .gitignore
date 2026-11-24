@@ -1,0 +1,38 @@
+# Maven and local runtime artifacts
+**/target/
+/datos-locales/
+*.mv.db
+*.trace.db
+*.lock.db
+*.h2.db
+*.temp.db
+*.log
+*.pid
+*.jar
+*.war
+*.zip
+
+# Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Editor and OS files
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+*.iml
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+
+# Local agent coordination and temporary Maven descriptors
+/AGENTS.md
+/CONTINUIDAD.md
+/Citas/.*-pom.xml

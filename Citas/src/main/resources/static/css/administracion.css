@@ -1,0 +1,41 @@
+/* Administracion: componentes locales sobre los tokens aceptados. */
+.administracion { min-width:0; }
+.cabecera-admin { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:24px; }
+.cabecera-admin p { margin:0; }
+.cabecera-admin .boton { display:inline-flex; align-items:center; justify-content:center; }
+.vacio-admin { padding:32px; border:1px solid var(--border); border-radius:var(--radius-card); background:var(--surface); }
+.vacio-admin h2 { margin-top:0; }
+.directorio-medicos { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); gap:20px; }
+.tarjeta-medico { padding:24px; min-width:0; border:1px solid var(--border); border-radius:var(--radius-card); background:var(--surface); }
+.tarjeta-medico h2 { margin:0 0 8px; font-size:20px; }
+.metadato { font-size:12px; color:var(--text-muted); }
+.estado-activo { color:var(--success); background:var(--success-bg); }
+.estado-inactivo { color:var(--neutral); background:var(--neutral-bg); }
+.acciones-compactas { display:flex; align-items:flex-start; flex-wrap:wrap; gap:8px; }
+.tarjeta-medico .acciones-compactas { margin-top:24px; }
+.acciones-compactas form { display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin:0; }
+.accion-compacta { display:inline-flex; justify-content:center; align-items:center; min-height:44px; width:auto; padding:8px 12px; font-size:14px; line-height:1.5; white-space:nowrap; }
+.aviso-accion { margin:0; max-width:24ch; }
+.administracion .tabla-contenedor { width:100%; border:1px solid var(--border); border-radius:var(--radius-control); background:var(--surface); }
+/* Sin min-width global: el scroll local aparece por el contenido que realmente lo necesite. */
+.administracion .tabla-admin { min-width:0; width:100%; }
+.tabla-admin th,.tabla-admin td { overflow-wrap:anywhere; }
+.tabla-admin th { font-weight:600; overflow-wrap:normal; }
+.tabla-admin td { vertical-align:top; }
+.tabla-admin .celda-fecha,.tabla-admin .celda-hora { white-space:nowrap; font-variant-numeric:tabular-nums; }
+.formulario-admin form { gap:24px; }
+.campo { display:flex; flex-direction:column; gap:8px; min-width:0; }
+.campo .ayuda { margin:0; }
+.campos-cortos { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.acciones-formulario,.acciones-filtro { display:flex; align-items:center; flex-wrap:wrap; gap:12px; }
+.dato-solo-lectura { margin:0; }
+.dato-solo-lectura dt { font-size:14px; color:var(--text-muted); }
+.dato-solo-lectura dd { margin:4px 0 0; overflow-wrap:anywhere; }
+.identidad-cuenta { overflow-wrap:anywhere; }
+.filtros-admin { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr)); gap:16px; padding:24px; margin-bottom:24px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); }
+.acciones-filtro { grid-column:1/-1; }
+.totales-reporte { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin:24px 0; }
+.totales-reporte > div { padding:20px; border:1px solid var(--border); border-radius:var(--radius-control); background:var(--surface); }
+.totales-reporte dt { font-size:14px; color:var(--text-muted); font-weight:400; }
+.totales-reporte dd { margin:8px 0 0; font-size:28px; font-weight:600; font-variant-numeric:tabular-nums; }
+@media (max-width:767px) { .campos-cortos,.filtros-admin { grid-template-columns:1fr; } .totales-reporte { grid-template-columns:1fr 1fr; } .filtros-admin,.vacio-admin { padding:20px; } .tabla-admin th,.tabla-admin td { padding:10px; } }

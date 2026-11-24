@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de citas · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/administracion.css}">
+    <script th:src="@{/js/agenda.js}" defer sec:authorize="hasRole('ADMIN')"></script>
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('admin-citas')}"></header>
+    <main id="contenido" class="contenedor administracion" tabindex="-1">
+        <div class="cabecera-admin"><div><h1>Administración de citas</h1><p class="texto-secundario">Confirma citas pendientes futuras o gestiona su cancelación.</p></div></div>
+        <p class="mensaje error" role="alert" th:if="${error}" th:text="${error}"></p>
+        <p class="mensaje exito" role="status" th:if="${exito}" th:text="${exito}"></p>
+        <form th:replace="~{fragments/administracion :: filtros('/admin/citas',false)}"></form>
+        <section class="vacio-admin" th:if="${#lists.isEmpty(citas)}"><h2>Sin citas para mostrar</h2><p>No se encontraron citas con los filtros seleccionados.</p><a th:href="@{/admin/citas}">Consultar todas las citas</a></section>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(citas)}" role="region" aria-label="Citas administradas" tabindex="0">
+            <table class="tabla-admin"><caption class="solo-lectores">Citas con paciente, horario, estado y acciones.</caption><thead><tr><th scope="col">ID</th><th scope="col">Paciente</th><th scope="col">Correo</th><th scope="col">Médico</th><th scope="col">Especialidad</th><th scope="col">Fecha</th><th scope="col">Hora</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead><tbody>
+                <tr th:each="cita : ${citas}"><td th:text="${cita.id}"></td><td th:text="${cita.usuario.nombre}"></td><td th:text="${cita.usuario.correo}"></td><td th:text="${cita.medico.nombre}"></td><td th:text="${cita.medico.especialidad}"></td><td class="celda-fecha" th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy')}"></td><td class="celda-hora" th:text="${#temporals.format(cita.horaInicio, 'HH:mm') + ' – ' + #temporals.format(cita.horaFin, 'HH:mm')}"></td><td><span th:replace="~{fragments/administracion :: estado(${cita.estado})}"></span></td>
+                    <td><div class="acciones-compactas">
+                        <form th:if="${citasConfirmables.contains(cita.id)}" method="post" data-revisar-accion data-estilo="primario" data-titulo="¿Quieres confirmar esta cita?" data-mensaje="La cita pasará al estado Confirmada." data-accion="Confirmar cita" th:action="@{/admin/citas/confirmar/{id}(id=${cita.id})}"><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button type="submit" class="boton-secundario accion-compacta" th:attr="aria-label=${'Confirmar cita ' + cita.id + ' de ' + cita.usuario.nombre}">Confirmar</button><p class="ayuda aviso-accion" data-aviso-sin-js>La cita pasará al estado Confirmada.</p></form>
+                        <form th:if="${cita.estado.name() != 'CANCELADA'}" method="post" data-revisar-accion th:action="@{/admin/citas/cancelar/{id}(id=${cita.id})}" th:attr="data-titulo='¿Quieres cancelar esta cita?',data-mensaje='La cita quedará cancelada y se conservará su historial.',data-accion='Cancelar cita'">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button type="submit" class="boton-peligro accion-compacta" th:attr="aria-label=${'Cancelar cita ' + cita.id + ' de ' + cita.usuario.nombre}">Cancelar</button><p class="ayuda aviso-accion" data-aviso-sin-js>La cita quedará cancelada y se conservará su historial.</p>
+                        </form>
+                    </div></td>
+                </tr>
+            </tbody></table>
+        </div>
+    </main>
+    <th:block sec:authorize="hasRole('ADMIN')"><dialog th:replace="~{fragments/administracion :: confirmacion}"></dialog></th:block>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

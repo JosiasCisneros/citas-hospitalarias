@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/administracion.css}">
+    <script th:src="@{/js/agenda.js}" defer sec:authorize="hasRole('ADMIN')"></script>
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('usuarios')}"></header>
+    <main id="contenido" class="contenedor administracion" tabindex="-1">
+        <div class="cabecera-admin"><div><h1>Usuarios</h1><p class="texto-secundario">Cuentas registradas y estado de acceso.</p></div></div>
+        <p class="mensaje error" role="alert" th:if="${error}" th:text="${error}"></p>
+        <p class="mensaje exito" role="status" th:if="${param.actualizado}">Usuario actualizado correctamente.</p>
+        <p class="mensaje exito" role="status" th:if="${param.desactivado}">Usuario desactivado correctamente.</p>
+        <section class="vacio-admin" th:if="${#lists.isEmpty(usuarios)}"><h2>No hay usuarios registrados</h2><p>Las cuentas creadas aparecerán aquí.</p><a th:href="@{/inicio}">Volver al inicio</a></section>
+        <div class="tabla-contenedor" th:unless="${#lists.isEmpty(usuarios)}" role="region" aria-label="Usuarios registrados" tabindex="0">
+            <table class="tabla-admin"><caption class="solo-lectores">Datos de las cuentas y acciones de administración.</caption><thead><tr><th scope="col">ID</th><th scope="col">Nombre</th><th scope="col">Cédula</th><th scope="col">Correo</th><th scope="col">Contacto</th><th scope="col">Rol</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead><tbody>
+                <tr th:each="usuario : ${usuarios}"><td th:text="${usuario.id}"></td><td th:text="${usuario.nombre}"></td><td th:text="${usuario.cedula}"></td><td th:text="${usuario.correo}"></td><td th:text="${usuario.contacto}"></td><td th:text="${usuario.rol}"></td><td><span class="estado" th:classappend="${usuario.activo ? 'estado-activo' : 'estado-inactivo'}" th:text="${usuario.activo ? 'Activo' : 'Inactivo'}"></span></td>
+                    <td><div class="acciones-compactas"><a class="boton-secundario accion-compacta" th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" th:attr="aria-label=${'Editar a ' + usuario.nombre}">Editar</a>
+                        <form th:if="${usuario.activo}" th:action="@{/usuarios/desactivar/{id}(id=${usuario.id})}" method="post" data-revisar-accion th:attr="data-titulo='¿Desactivar esta cuenta?',data-mensaje=${'Se desactivará la cuenta de ' + usuario.nombre + '. Se cerrarán sus sesiones y se conservarán sus citas. Si es tu cuenta, también se cerrará esta sesión.'},data-accion='Desactivar'">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"><button type="submit" class="boton-peligro accion-compacta" th:attr="aria-label=${'Desactivar a ' + usuario.nombre}">Desactivar</button><p class="ayuda aviso-accion" data-aviso-sin-js>Se desactiva la cuenta y se cierran sus sesiones.</p>
+                        </form>
+                    </div></td>
+                </tr>
+            </tbody></table>
+        </div>
+    </main>
+    <th:block sec:authorize="hasRole('ADMIN')"><dialog th:replace="~{fragments/administracion :: confirmacion}"></dialog></th:block>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Médico · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/administracion.css}">
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('medicos')}"></header>
+    <main id="contenido" class="contenedor administracion" tabindex="-1">
+        <div class="cabecera-admin"><h1 th:text="${titulo}">Médico</h1></div>
+        <section class="panel formulario-admin" aria-label="Datos del médico">
+        <p class="mensaje error" role="alert" th:if="${error}" th:text="${error}"></p>
+            <form th:action="${medico.id == null} ? @{/medicos/guardar} : @{/medicos/editar/{id}(id=${medico.id})}" method="post" th:object="${medico}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <div class="campo"><label for="nombre">Nombre</label><input type="text" id="nombre" th:field="*{nombre}" required></div>
+                <div class="campo"><label for="especialidad">Especialidad</label><input type="text" id="especialidad" th:field="*{especialidad}" required></div>
+                <div class="acciones-formulario"><button type="submit">Guardar</button><a class="boton-secundario" th:href="@{/medicos}">Volver a médicos</a></div>
+            </form>
+        </section>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

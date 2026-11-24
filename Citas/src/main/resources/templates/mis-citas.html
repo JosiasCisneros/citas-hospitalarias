@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis citas · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/paciente.css}">
+    <script th:src="@{/js/agenda.js}" defer></script>
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('mis-citas')}"></header>
+    <main id="contenido" class="contenedor recorrido-paciente" tabindex="-1">
+        <div class="cabecera-pagina"><div><h1>Mis citas</h1><p class="texto-secundario">Consulta tus citas y su estado.</p></div><a class="boton" th:href="@{/citas/disponibles}">Reservar cita</a></div>
+        <p class="mensaje exito" role="status" th:if="${exito}" th:text="${exito}"></p>
+        <p class="mensaje error" role="alert" th:if="${error}" th:text="${error}"></p>
+        <section class="estado-vacio" th:if="${#lists.isEmpty(citas)}" aria-labelledby="sin-citas">
+            <h2 id="sin-citas">Aún no tienes citas</h2><p>Cuando reserves un horario, podrás consultar aquí sus datos y estado.</p><a th:href="@{/citas/disponibles}">Consultar horarios disponibles</a>
+        </section>
+        <div class="tarjetas-citas" th:if="${!#lists.isEmpty(citas)}">
+            <article class="tarjeta-cita" th:each="cita : ${citas}" th:attr="aria-labelledby=${'medico-cita-' + cita.id}">
+                <div class="encabezado-cita"><div><h2 th:id="${'medico-cita-' + cita.id}" th:text="${cita.medico.nombre}"></h2><p class="texto-secundario" th:text="${cita.medico.especialidad}"></p></div>
+                    <span class="estado" th:classappend="${cita.estado.name() == 'PENDIENTE' ? ' estado-pendiente' : (cita.estado.name() == 'CONFIRMADA' ? ' estado-confirmada' : ' estado-cancelada')}"
+                        th:text="${cita.estado.name() == 'PENDIENTE' ? 'Pendiente' : (cita.estado.name() == 'CONFIRMADA' ? 'Confirmada' : 'Cancelada')}"></span>
+                </div>
+                <dl class="detalle-cita"><div><dt>Fecha</dt><dd th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy')}"></dd></div><div><dt>Horario</dt><dd th:text="${#temporals.format(cita.horaInicio, 'HH:mm') + ' – ' + #temporals.format(cita.horaFin, 'HH:mm')}"></dd></div></dl>
+                <form class="cancelacion-cita" method="post" data-revisar-cancelacion th:if="${citasCancelables.contains(cita.id)}" th:action="@{/citas/cancelar/{id}(id=${cita.id})}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <p class="ayuda" data-aviso-sin-js>Al enviar, la cita se cancelará y el horario volverá a quedar disponible.</p>
+                    <button type="submit" class="boton-peligro">Cancelar cita</button>
+                </form>
+            </article>
+        </div>
+        <dialog class="dialogo-agenda" id="cancelar-cita" aria-labelledby="titulo-cancelacion">
+            <h2 id="titulo-cancelacion">¿Quieres cancelar esta cita?</h2>
+            <div class="acciones-dialogo"><button class="boton-secundario" type="button" data-volver autofocus>Conservar cita</button><button class="boton-peligro" type="button" data-enviar>Cancelar cita</button></div>
+        </dialog>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

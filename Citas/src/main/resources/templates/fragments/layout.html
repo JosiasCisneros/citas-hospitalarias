@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="header(activa)" class="site-header">
+    <a class="saltar-contenido" href="#contenido">Saltar al contenido</a>
+    <div class="cabecera-publica" sec:authorize="isAnonymous()">
+        <a class="marca" th:href="@{/login}"><svg th:replace="~{fragments/layout :: simbolo}"></svg>Citas hospitalarias</a>
+        <nav class="navegacion-publica" aria-label="Acceso">
+            <a th:href="@{/login}" th:attr="aria-current=${activa == 'login' ? 'page' : null}">Iniciar sesión</a>
+            <a th:href="@{/registro}" th:attr="aria-current=${activa == 'registro' ? 'page' : null}">Crear cuenta</a>
+        </nav>
+    </div>
+    <div class="barra-lateral" sec:authorize="isAuthenticated()">
+        <a class="marca" th:href="@{/inicio}"><svg th:replace="~{fragments/layout :: simbolo}"></svg>Citas<br>hospitalarias</a>
+        <nav th:replace="~{fragments/layout :: navegacion(${activa})}"></nav>
+    </div>
+    <div class="cabecera-movil" sec:authorize="isAuthenticated()">
+        <a class="marca" th:href="@{/inicio}"><svg th:replace="~{fragments/layout :: simbolo}"></svg>Citas hospitalarias</a>
+        <details>
+            <summary>Menú</summary>
+            <nav th:replace="~{fragments/layout :: navegacion(${activa})}"></nav>
+        </details>
+    </div>
+</header>
+<nav th:fragment="navegacion(activa)" class="navegacion-app" aria-label="Principal">
+    <div class="grupo-nav" sec:authorize="hasRole('USUARIO') and !hasRole('ADMIN')">
+        <p class="titulo-nav">Mi atención</p>
+        <a th:href="@{/inicio}" th:attr="aria-current=${activa == 'inicio' ? 'page' : null}">Inicio</a>
+        <a th:href="@{/citas/disponibles}" th:attr="aria-current=${activa == 'reservar' ? 'page' : null}">Reservar cita</a>
+        <a th:href="@{/citas/mis-citas}" th:attr="aria-current=${activa == 'mis-citas' ? 'page' : null}">Mis citas</a>
+        <a th:href="@{/medicos}" th:attr="aria-current=${activa == 'medicos' ? 'page' : null}">Médicos</a>
+    </div>
+    <div class="grupo-nav" sec:authorize="hasRole('ADMIN')">
+        <p class="titulo-nav">Administración</p>
+        <a th:href="@{/admin/citas}" th:attr="aria-current=${activa == 'admin-citas' ? 'page' : null}">Citas</a>
+        <a th:href="@{/medicos}" th:attr="aria-current=${activa == 'medicos' ? 'page' : null}">Médicos</a>
+        <a th:href="@{/disponibilidades}" th:attr="aria-current=${activa == 'disponibilidades' ? 'page' : null}">Disponibilidades</a>
+        <a th:href="@{/usuarios}" th:attr="aria-current=${activa == 'usuarios' ? 'page' : null}">Usuarios</a>
+        <a th:href="@{/admin/reportes}" th:attr="aria-current=${activa == 'reportes' ? 'page' : null}">Reportes</a>
+    </div>
+    <div class="grupo-nav">
+        <p class="titulo-nav">Cuenta</p>
+        <a th:href="@{/perfil}" th:attr="aria-current=${activa == 'perfil' ? 'page' : null}">Mi perfil</a>
+        <form class="cerrar-sesion" th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </div>
+</nav>
+<svg th:fragment="simbolo" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <rect x="4" y="6" width="20" height="18" rx="4"/><path d="M9 3v6m10-6v6M4 12h20m-15 5h4m3 0h3m-10 4h4"/>
+</svg>
+<aside th:fragment="editorial" class="editorial-acceso" aria-label="Consulta y gestiona tus citas.">
+    <h2>Consulta y gestiona tus citas.</h2>
+    <div class="motivo-agenda" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</aside>
+<footer th:fragment="footer" class="footer"><p>Citas hospitalarias</p></footer>
+</body>
+</html>

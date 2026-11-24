@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"><body>
+<form th:fragment="filtros(ruta,reporte)" class="filtros-admin" th:action="@{${ruta}}" method="get" aria-label="Filtrar citas">
+    <div class="campo"><label for="filtro-estado">Estado</label><select id="filtro-estado" name="estado"><option value="">Todos</option><option th:each="item : ${estados}" th:value="${item}" th:selected="${estado == item}" th:text="${item.name() == 'PENDIENTE' ? 'Pendiente' : (item.name() == 'CONFIRMADA' ? 'Confirmada' : 'Cancelada')}"></option></select></div>
+    <div class="campo"><label for="filtro-medico">Médico</label><select id="filtro-medico" name="medicoId"><option value="">Todos</option><option th:each="medico : ${medicos}" th:value="${medico.id}" th:text="${medico.nombre}" th:selected="${medicoId != null and medico.id == medicoId}"></option></select></div>
+    <div class="campo"><label for="filtro-especialidad">Especialidad</label>
+        <select th:if="${reporte}" id="filtro-especialidad" name="especialidad"><option value="">Todas</option><option th:each="item : ${especialidades}" th:value="${item}" th:text="${item}" th:selected="${especialidad == item}"></option></select>
+        <input th:unless="${reporte}" id="filtro-especialidad" type="text" name="especialidad" th:value="${especialidad}">
+    </div>
+    <div class="campo"><label for="filtro-desde">Fecha desde</label><input id="filtro-desde" type="date" name="fechaDesde" th:value="${fechaDesde}"></div>
+    <div class="campo"><label for="filtro-hasta">Fecha hasta</label><input id="filtro-hasta" type="date" name="fechaHasta" th:value="${fechaHasta}"></div>
+    <div class="acciones-filtro"><button type="submit">Aplicar filtros</button><a class="boton-secundario" th:href="@{${ruta}}">Limpiar filtros</a></div>
+</form>
+<span th:fragment="estado(estado)" class="estado" th:classappend="${estado.name() == 'PENDIENTE' ? 'estado-pendiente' : (estado.name() == 'CONFIRMADA' ? 'estado-confirmada' : 'estado-cancelada')}" th:text="${estado.name() == 'PENDIENTE' ? 'Pendiente' : (estado.name() == 'CONFIRMADA' ? 'Confirmada' : 'Cancelada')}"></span>
+<dialog th:fragment="confirmacion" class="dialogo-agenda" id="confirmar-accion" aria-labelledby="titulo-accion" aria-describedby="mensaje-accion">
+    <h2 id="titulo-accion">Revisar acción</h2><p id="mensaje-accion"></p>
+    <div class="acciones-dialogo"><button type="button" class="boton-secundario" data-volver autofocus>Volver</button><button type="button" class="boton-peligro" data-enviar>Continuar</button></div>
+</dialog>
+</body></html>

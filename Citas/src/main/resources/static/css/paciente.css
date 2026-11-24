@@ -1,0 +1,50 @@
+/* Componentes del recorrido paciente, sobre los tokens aceptados de 06A. */
+.recorrido-paciente { min-width:0; }
+.cabecera-pagina { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:24px; }
+.cabecera-pagina p { margin:0; }
+.cabecera-pagina .boton,.bienvenida-paciente .boton { display:inline-flex; align-items:center; justify-content:center; }
+.zona-horaria { color:var(--text-muted); font-size:14px; }
+.bienvenida-paciente { padding:32px; background:var(--surface-soft); border:1px solid var(--border); border-radius:var(--radius-card); margin-bottom:24px; }
+.bienvenida-paciente p { max-width:50ch; margin-bottom:24px; }
+.accesos-paciente { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.tarjeta-acceso { display:flex; flex-direction:column; padding:24px; border:1px solid var(--border); border-radius:var(--radius-card); background:var(--surface); color:var(--text); text-decoration:none; }
+.tarjeta-acceso:hover { color:var(--text); border-color:var(--control-border); }
+.tarjeta-acceso h2 { margin:0 0 12px; font-size:24px; }
+.tarjeta-acceso p { color:var(--text-muted); font-weight:400; }
+.tarjeta-acceso > span { color:var(--brand); margin-top:auto; }
+.estado-vacio { padding:32px; border:1px solid var(--border); border-radius:var(--radius-card); background:var(--surface); }
+.estado-vacio h2 { margin-top:0; }
+.identidad-medico { display:flex; flex-direction:column; gap:4px; min-width:0; overflow-wrap:anywhere; }
+.identidad-medico .especialidad { color:var(--text-muted); font-size:14px; font-weight:400; }
+.acordeon-horarios .accordion-header { margin:0; }
+.acordeon-horarios .accordion-item { border-radius:var(--radius-card); overflow:visible; margin-bottom:16px; background:var(--surface); }
+.acordeon-horarios .accordion-button { padding:20px; border-radius:var(--radius-card); min-height:72px; }
+.acordeon-horarios .accordion-button:focus-visible { outline:3px solid var(--focus); outline-offset:3px; box-shadow:none; }
+.lista-horarios { display:flex; flex-wrap:wrap; gap:12px; }
+.formulario-horario { flex-direction:column; align-items:flex-start; gap:4px; }
+.intervalo-horario { font-variant-numeric:tabular-nums; }
+.tarjetas-citas { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.tarjeta-cita { min-width:0; padding:24px; border:1px solid var(--border); border-radius:var(--radius-card); background:var(--surface); }
+.encabezado-cita { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; }
+.encabezado-cita > div { flex:1; min-width:min(180px,100%); }
+.encabezado-cita h2 { margin:0 0 4px; font-size:20px; }
+.detalle-cita { display:flex; gap:32px; flex-wrap:wrap; margin:24px 0; }
+.detalle-cita dt,.datos-reserva dt { font-size:14px; color:var(--text-muted); font-weight:400; }
+.detalle-cita dd,.datos-reserva dd { margin:4px 0 0; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
+.cancelacion-cita { align-items:flex-start; margin-top:20px; }
+.cancelacion-cita .ayuda { margin:0; }
+.datos-reserva { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:0 0 24px; }
+.datos-reserva > div:first-child,.datos-reserva > div:nth-child(2) { grid-column:1/-1; }
+.perfil-panel form { gap:28px; }
+.perfil-panel fieldset { border:0; margin:0; padding:0; min-width:0; }
+.perfil-panel legend { margin-bottom:20px; padding:0; font-size:20px; font-weight:600; }
+.campos-perfil { display:grid; grid-template-columns:1fr 1fr; gap:20px 16px; }
+.acciones-perfil { display:flex; flex-wrap:wrap; gap:12px; }
+@media (max-width:1023px) { .accesos-paciente { grid-template-columns:1fr 1fr; } }
+@media (max-width:767px) {
+ .accesos-paciente,.tarjetas-citas,.campos-perfil { grid-template-columns:1fr; }
+ .bienvenida-paciente,.estado-vacio,.dialogo-agenda { padding:24px; }
+ .cabecera-pagina { margin-bottom:20px; }
+ .acciones-dialogo { flex-direction:column; }
+ .acciones-dialogo button { width:100%; }
+}

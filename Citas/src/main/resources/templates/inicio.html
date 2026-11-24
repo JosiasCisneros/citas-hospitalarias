@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio · Citas hospitalarias</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/contenido.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/paciente.css}">
+</head>
+<body class="app-shell">
+    <header th:replace="~{fragments/layout :: header('inicio')}"></header>
+    <main id="contenido" class="contenedor recorrido-paciente" tabindex="-1">
+        <section class="bienvenida-paciente" aria-labelledby="titulo-pagina">
+            <h1 id="titulo-pagina">Tu agenda de citas</h1>
+            <p>Bienvenido. Consulta los horarios disponibles y organiza tu próxima cita.</p>
+            <a class="boton" th:href="@{/citas/disponibles}">Reservar cita</a>
+        </section>
+        <nav class="accesos-paciente" aria-label="Accesos de paciente">
+            <a class="tarjeta-acceso" th:href="@{/citas/mis-citas}"><h2>Mis citas</h2><p>Revisa tus citas y su estado.</p><span>Ver mis citas →</span></a>
+            <a class="tarjeta-acceso" th:href="@{/perfil}"><h2>Mi perfil</h2><p>Actualiza tus datos de contacto y acceso.</p><span>Ver mi perfil →</span></a>
+            <a class="tarjeta-acceso" th:href="@{/medicos}"><h2>Médicos</h2><p>Consulta el directorio de profesionales.</p><span>Ver médicos →</span></a>
+        </nav>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
